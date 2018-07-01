@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>种下一棵星云下的表白书</title>
+	<link rel="stylesheet" type="text/css" href="css/default.css">
+	<link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
+	<link rel="stylesheet" href="css/1.css"> <!-- Resource style -->
+	<script src="js/modernizr.js"></script> <!-- Modernizr -->
+	<script type="text/javascript" src="./jquery-3.3.1.min.js"></script>
+	
+    <script type="text/javascript" src="./dist/nebulas.js"></script>
+
+    <script type="text/javascript" src="./dist/nebPay.js"></script>
+</head>
+<body>
+	<div class="jq22-container">
+		<header class="jq22-header bgcolor-11">
+			<h1>种下一棵星云下的表白树</h1>
+		</header>
+		<!--<div class="jq22-content bgcolor-8">
+			
+		</div>-->
+		<form class="cd-form floating-labels">
+			<fieldset>
+				
+
+				<div class="error-message">
+					<p>需要使用星云钱包才能正常提交哦。若上传失败可能该编号已被占用</p>
+				</div>
+
+				<div class="icon">
+					<label class="cd-label" for="cd-name">署名</label>
+					<input class="user" type="text" name="cd-name" id="cd-name" required>
+			    </div> 
+
+			    <div class="icon">
+			    	<label class="cd-label" for="cd-company">唯一id（对方根据id才能找到对应的表白树）</label>
+					<input class="company" type="text" name="cd-company" id="cd-company">
+			    </div> 
+
+			</fieldset>
+
+			<fieldset>
+				
+
+				
+
+				
+
+				<div class="icon">
+					<label class="cd-label" for="cd-textarea">甜言蜜语^_^</label>
+	      			<textarea class="message" name="cd-textarea" id="cd-textarea" required></textarea>
+				</div>
+
+				<div>
+			      	<input type="submit" value="提交-上链" id=post>
+			    </div>
+			</fieldset>
+		</form>
+		
+	</div>
+	<script>
+		"use strict";
+		var dappContactAddress = "n1h7uRvkJCpPk9ntE7Egc7G75ops1BCrRgx";
+		var nebulas = require("nebulas"), Account = Account, neb = new nebulas.Neb();
+		neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"))
+	
+	
+		var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
+		var nebPay = new NebPay();
+		var serialNumber
+	
+	
+	
+	
+		$('#post').click(function () {
+			if (!$("#cd-name").val() || !$("#cd-company").val()|| !$("#cd-textarea").val()) {
+				alert('编号或者文本不能为空');
+				//return;
+			}
+			var to = dappContactAddress;
+			var value = "0";
+			var callFunction = "save";
+			var cont = $("#cd-textarea").val()+"--"+$("#cd-name").val();
+			var callArgs = "[\"" + $("#cd-company").val() + "\",\"" + cont + "\"]";
+			console.log(callArgs);
+	
+			serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
+				listener: function (resp) {
+					
+					if(typeof resp == "string"){
+                    console.log("reject! cancel");
+                     alert("已取消上传")
+               
+                    }else{
+                     
+                      alert("上传成功");
+                           
+           			 }
+				}
+			});
+	
+		})
+	
+	</script>
+	
+	
+	<script src="js/main.js"></script> <!-- Resource jQuery -->
+</body>
+</html>
