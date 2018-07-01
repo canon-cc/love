@@ -263,6 +263,17 @@ Form
   border-radius: .25em;
   padding: 16px;
 }
+
+.cd-form .error p {
+  background: #4735e9da;
+  color: #ffffff;
+  font-size: 1.4rem;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  border-radius: .25em;
+  padding: 16px;
+}
 .cd-form .error {
   border-color: #e94b35 !important;
 }
